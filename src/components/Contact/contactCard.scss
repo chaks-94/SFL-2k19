@@ -1,0 +1,41 @@
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  margin: 10px;
+  text-align: center;
+  padding: 10px;
+  flex: 1 0 25%;
+}
+
+.title {
+  color: grey;
+  font-size: 18px;
+}
+
+.btn-contact {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
+
+a {
+  text-decoration: none;
+  font-size: 22px;
+  color: black;
+}
+
+button:hover, a:hover {
+  opacity: 0.7;
+}
+
+@media only screen and (max-width: 500px) {
+    .card {
+        flex: 1 0 50%;
+    }
+}
