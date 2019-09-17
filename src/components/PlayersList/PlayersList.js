@@ -1,4 +1,5 @@
 import * as React from "react";
+import {Link} from "react-router-dom";
 import GetPlayers from "../../services/GetPlayerService";
 import "./PlayersList.scss";
 
@@ -123,6 +124,10 @@ class PlayersList extends React.Component {
                     })}
                     </tbody>
                 </table>
+                <div className="registration-message has-success">
+                    Dont see your Name here? Because you have not registered yet<br></br>
+                    <Link to="/register">Please register now!!</Link>
+                </div>
             </div>
         )
     }
