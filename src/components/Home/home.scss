@@ -19,18 +19,25 @@ main {
         left: 50%;
         transform: translate(-50%, -50%);
         color: white;
-        .btn-register {
+        .btn {
             border: none;
             outline: 0;
             display: inline-block;
             padding: 10px 25px;
-            color: black;
-            background-color: #ddd;
             text-align: center;
+            margin: 2vw 0;
             cursor: pointer;
             &:hover{
                 background-color: #555;
                 color: white;
+            }
+            &-register {
+                background-color: #ddd;   
+                color: black;
+            }
+            &-login {
+                background-color: #bbb;
+                color: #555;
             }
         }
     }

@@ -10,6 +10,7 @@ import Home from "./Home/home";
 import Contact from "./Contact/contact";
 import About from "./About/about";
 import PlayersList from './PlayersList/PlayersList';
+import AdminLanding from './Admin/Admin';
 
 
 const App = () => (
@@ -21,6 +22,7 @@ const App = () => (
         <Route exact path="/about" component={About} />
         <Route exact path="/contact" component={Contact} />
         <Route exact path="/players" component={PlayersList} />
+        <Route exact path="/login" component={AdminLanding} />
     </Router>
 );
 export default App;
