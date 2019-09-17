@@ -9,3 +9,5 @@ class EditableCell extends React.Component {
         )
     }
 }
+
+export default EditableCell;
