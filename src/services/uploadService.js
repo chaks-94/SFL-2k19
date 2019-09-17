@@ -1,12 +1,9 @@
-import firebase from "firebase";
+import FirebaseInstance from "./initializeFirebase";
 import "@firebase/storage";
-import config from "../config/config"
 
 export const UploadFile =  (fileName,fileData) => {
-    if(!firebase.apps.length) {
-        firebase.initializeApp(config);
-    }
-    const storage = firebase.storage();
+  
+    const storage = FirebaseInstance.getInstance().storage();
     return storage
         .ref(fileName)
         .put(fileData)

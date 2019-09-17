@@ -9,6 +9,7 @@ import Register from "./Register/register";
 import Home from "./Home/home";
 import Contact from "./Contact/contact";
 import About from "./About/about";
+import PlayersList from './PlayersList/PlayersList';
 
 
 const App = () => (
@@ -19,6 +20,7 @@ const App = () => (
         <Route exact path="/register" component={Register} />
         <Route exact path="/about" component={About} />
         <Route exact path="/contact" component={Contact} />
+        <Route exact path="/players" component={PlayersList} />
     </Router>
 );
 export default App;

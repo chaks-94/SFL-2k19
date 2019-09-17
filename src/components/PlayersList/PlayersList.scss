@@ -1,0 +1,25 @@
+.container {
+    max-width: 80vw;
+}
+
+.registration-table {
+    .simple-table {
+        border-collapse: collapse;
+        width: 100%;
+        thead  {
+            tr {
+                border-bottom: 2px solid #D6EFFF;
+            }
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #C6E9FF;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+    }
+}

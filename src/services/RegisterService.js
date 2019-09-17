@@ -1,11 +1,8 @@
-import firebase from "firebase";
-import config from "../config/config"
+import FirebaseInstance from "./initializeFirebase";
 
 const RegisterService = (object) => {
-    if (!firebase.apps.length) {
-        firebase.initializeApp(config);
-    }
-    return firebase.database()
+    
+    return FirebaseInstance.getInstance().database()
             .ref("/sfl2k19")
             .push(object)
             .then(() => {

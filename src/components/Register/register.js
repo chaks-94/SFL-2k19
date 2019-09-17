@@ -16,6 +16,7 @@ class RegisterPlayer extends React.Component {
                 position: "mid",
                 photo: null,
                 passYear: "",
+                paymentStatus: false,
             },
             formSubmitStatus: false, 
             upload: {
@@ -112,6 +113,7 @@ class RegisterPlayer extends React.Component {
                 foot: "r",
                 passYear: "",
                 position: "mid",
+                paymentStatus: false,
             },
             upload: {
                 uploadMessage: "",
