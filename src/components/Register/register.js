@@ -1,4 +1,5 @@
 import * as React from "react";
+import {Link} from "react-router-dom";
 import "./register.scss";  
 import { UploadFile } from "../../services/uploadService";
 import RegisterService from "../../services/RegisterService";
@@ -333,8 +334,13 @@ class RegisterPlayer extends React.Component {
                 {this.state.formSubmitStatus && 
                     <div className="row has-success">
                         Congratulations! You are successfully registered
-                        Take out your football boots and get ready to give your best
-                        </div>
+                        Take out your football boots and get ready to give your best!!
+                        <br></br>
+                        <br></br>
+                        <span>
+                            Check <Link to="/players">how many friends</Link> of yours have registered till now
+                        </span>
+                    </div>
                 }
             </div>  
         );
