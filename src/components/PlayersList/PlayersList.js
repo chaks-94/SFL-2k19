@@ -113,8 +113,13 @@ class PlayersList extends React.Component {
                         return(
                             <tr key={index}>
                                 {this.columnData().map((cell) => {
-                                    const {id} = cell;
+                                    const {id,render} = cell;
                                     return (
+                                        render ? 
+                                        <td key={id}>
+                                            editable Cell
+                                        </td>
+                                        :
                                         <td key={id}>
                                             {player[id]}
                                         </td>
