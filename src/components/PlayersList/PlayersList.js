@@ -94,6 +94,7 @@ class PlayersList extends React.Component {
     render() {
         return(
             <div className="container registration-table">
+                <h1>Players List</h1>
                 <table className="simple-table">
                     <thead>
                        <tr>
