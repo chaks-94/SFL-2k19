@@ -36,7 +36,8 @@
     }
   }
   @media only screen and (max-width: 540px) {
-    .registration-table {
+    .registration-table {  
+        margin: 0; 
         overflow-x: scroll;
     }
   }
