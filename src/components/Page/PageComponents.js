@@ -6,6 +6,7 @@ import Contact from "../Contact/contact";
 import About from "../About/about";
 import PlayersList from '../PlayersList/PlayersList';
 import AdminLanding from "../Admin/Admin";
+import Gallery from "../Gallery/gallery";
 
 class PageComponents extends React.Component {
     
@@ -28,9 +29,13 @@ class PageComponents extends React.Component {
             <Route exact path="/about" component={About} />
             <Route exact path="/contact" component={Contact} />
             <Route exact path="/players" component={PlayersList} />
+<<<<<<< HEAD
             <Route exact path="/login" render={() =>{
                 return <AdminLanding onLogin={this.onLogin} />
             }} />
+=======
+            <Route exact path="/gallery" component={Gallery} />
+>>>>>>> app-dev
         </Switch>   
         )
     }

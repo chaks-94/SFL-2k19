@@ -34,6 +34,9 @@ class Navigation extends React.Component {
                                     <Link className="link" to="/about">About us</Link>
                                 </li>
                                 <li>
+                                    <Link className="link" to="/gallery">Gallery</Link>
+                                </li>
+                                <li>
                                     <Link className="link" to="/contact">Contact Us</Link>
                                 </li>
                                 <li>
