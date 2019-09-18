@@ -9,6 +9,9 @@ import * as img_6 from "../../assets/images/Teams/6.jpg";
 import * as img_7 from "../../assets/images/Teams/7.jpg";
 import * as img_8 from "../../assets/images/Teams/8.jpg";
 import * as img_9 from "../../assets/images/Teams/9.jpg";
+import * as img_10 from "../../assets/images/Teams/10.jpg";
+import * as img_11 from "../../assets/images/Teams/11.jpg";
+import * as img_12 from "../../assets/images/Teams/12.jpg";
 
 class Gallery extends React.Component{
     render(){
@@ -26,6 +29,9 @@ class Gallery extends React.Component{
                     <img src={img_7} className="image-card" alt="team" style={imgStyle}/>
                     <img src={img_8} className="image-card" alt="team" style={imgStyle}/>
                     <img src={img_9} className="image-card" alt="team" style={imgStyle}/>
+                    <img src={img_10} className="image-card" alt="team" style={imgStyle}/>
+                    <img src={img_11} className="image-card" alt="team" style={imgStyle}/>
+                    <img src={img_12} className="image-card" alt="team" style={imgStyle}/>
                 </div>
             </div>
         );
