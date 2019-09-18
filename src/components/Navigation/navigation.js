@@ -18,35 +18,41 @@ class Navigation extends React.Component {
     }
     render() {
         return(
-            <nav className="globalNav">
-                <ul>
-                    <button onClick={this.toggleButton}><i className={`fa ${this.state.buttonIcon}`}></i></button>
-                    {this.state.navDisplay &&
-                        <React.Fragment>
+            <nav className="nav">
+                <div className="nav-start">
+                    <ul>
+                        <button onClick={this.toggleButton}><i className={`fa ${this.state.buttonIcon}`}></i></button>
+                        {this.state.navDisplay &&
+                            <React.Fragment>
+                                <li>
+                                    <Link className="link" to="/home">Home</Link>
+                                </li>
+                                <li>
+                                    <Link className="link" to="/register">Register</Link>
+                                </li>
+                                <li>
+                                    <Link className="link" to="/about">About us</Link>
+                                </li>
+                                <li>
+                                    <Link className="link" to="/contact">Contact Us</Link>
+                                </li>
+                                <li>
+                                    <Link className="link" to="/players">Players List</Link>
+                                </li>
+                            </React.Fragment>
+                        }
+                    </ul>
+                </div>
+                <div className="nav-end">
+                    <ul>
+                        {
+                            this.props.isAdmin &&
                             <li>
-                                <Link className="link" to="/home">Home</Link>
+                                <span className="link">{this.props.userDetails.fullName}</span>
                             </li>
-                            <li>
-                                <Link className="link" to="/register">Register</Link>
-                            </li>
-                            <li>
-                                <Link className="link" to="/about">About us</Link>
-                            </li>
-                            <li>
-                                <Link className="link" to="/contact">Contact Us</Link>
-                            </li>
-                            <li>
-                                <Link className="link" to="/players">Players List</Link>
-                            </li>
-                            {
-                            this.props.isAdmin && 
-                            <li className="user-name link">
-                                {this.props.userDetails.fullName.split(" ")[0]}
-                            </li>
-                            }
-                        </React.Fragment>
-                    }
-                </ul>
+                        }
+                    </ul>
+                </div>
             </nav>
         )
     }

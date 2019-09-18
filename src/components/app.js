@@ -11,23 +11,27 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userDetails:{},
-            isAdmin:false,
+            userInfo : {
+                userDetails: {},
+                isAdmin: false,
+            }
         };
     }
 
     onLogin = (userDetails) => {
         this.setState({
-            userDetails,
-            isAdmin:true,
+            userInfo: {
+                userDetails,
+                isAdmin:true,
+            }
         })
     }
     render() {
-        const {userDetails,isAdmin} = this.state;
+        const {userInfo} = this.state;
         return ( 
             <Router>
-                <Navigation userDetails={userDetails} isAdmin={isAdmin} />
-                <PageComponents onLogin={this.onLogin}/>
+                <Navigation userInfo={userInfo} />
+                <PageComponents userInfo={userInfo} onLogin={this.onLogin}/>
             </Router>
         )
     }

@@ -1,67 +1,69 @@
-li{
-  list-style-type: none;
-  margin: 2vw 0;
-  
-  font-size: 3vh;
-}
-
-.link {
-    text-decoration: none;
-    color: black;
-    font-family: monospace;
-    padding: 2vw;
-}
-
-.user-name {
-  float: right;
-}
-
-nav{
+.nav {
   width: 100vw;
   background-color: #D6EFFF;
-}
-
-ul{
-  display: block;
-  margin: 0;
-  padding: 0;
-  
-  display: flex;  
-}
-
-button{
-  display: none;
-}
-
-.link:hover{
-    text-decoration: none;
-    background-color: #C6E9FF;
-}
-
-@media only screen and (max-width: 500px) {
-  ul{
-    flex-direction: column;
-  }
-  
-  .link{
-    display: block;
-  }
-  
+  display: flex;
   li{
+    list-style-type: none;
+    margin: 2vw 0;
+    
+    font-size: 3vh;
+  }
+  ul{
+    display: block;
     margin: 0;
+    padding: 0;
+    display: flex;  
   }
   
   button{
-    display: block;
-    
-    padding: 2vw;
-    font-size: 3vh;
-    background-color: #AFE0FF;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    
-    align-self: flex-start;
+    display: none;
   }
-  
+  .link {
+      text-decoration: none;
+      color: black;
+      font-family: monospace;
+      padding: 2vw;
+      &:hover {
+        text-decoration: none;
+        background-color: #C6E9FF;
+      }
+  }
+  &-start {
+    justify-content: flex-start;
+    margin-right: auto;
+  }
+  &-end {
+    justify-content: flex-end;
+    margin-left: auto;
+  }
+}
+
+
+@media only screen and (max-width: 500px) {
+  .nav {
+    ul{
+      flex-direction: column;
+    }
+    
+    .link{
+      display: block;
+    }
+    
+    li{
+      margin: 0;
+    }
+    
+    button{
+      display: block;
+      
+      padding: 2vw;
+      font-size: 3vh;
+      background-color: #AFE0FF;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      
+      align-self: flex-start;
+    }
+  }
 }
