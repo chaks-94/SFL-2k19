@@ -11,6 +11,9 @@
 # vscode files
 /.vs
 
+#firebase files
+/.firebase
+
 # production
 /build
 
@@ -24,3 +27,4 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.firebase/hosting.YnVpbGQ.cache
