@@ -38,6 +38,12 @@ class Navigation extends React.Component {
                             <li>
                                 <Link className="link" to="/players">Players List</Link>
                             </li>
+                            {
+                            this.props.isAdmin && 
+                            <li className="user-name link">
+                                {this.props.userDetails.fullName.split(" ")[0]}
+                            </li>
+                            }
                         </React.Fragment>
                     }
                 </ul>

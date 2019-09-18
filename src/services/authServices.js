@@ -1,4 +1,5 @@
 import FirebaseInstance from "./initializeFirebase";
+import { localValue } from "../helpers/helper";
 
 const AuthenticationService = () => {
     const firebaseInstance = FirebaseInstance.getInstance();
@@ -7,13 +8,17 @@ const AuthenticationService = () => {
     return {
         signin: (email,password) => {
             return new Promise((resolve,reject) => {
-                authInstance
+                authInstance.setPersistence(firebaseInstance.auth.Auth.Persistence.SESSION)
+                    .then(() =>{
+                        authInstance
                     .signInWithEmailAndPassword(email, password)
                     .then((user) => {
+                        localValue("userToken",user.user.uid);
                         resolve(user);
                     })
                     .catch((error) => {
                         reject(error);
+                    })
                     })
             }) 
         },

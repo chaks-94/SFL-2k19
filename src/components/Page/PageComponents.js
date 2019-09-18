@@ -8,6 +8,11 @@ import PlayersList from '../PlayersList/PlayersList';
 import AdminLanding from "../Admin/Admin";
 
 class PageComponents extends React.Component {
+    
+    onLogin = (userDetails) => {
+        this.props.onLogin(userDetails);
+    }
+
     render(){
        return (
         <Switch>
@@ -23,7 +28,9 @@ class PageComponents extends React.Component {
             <Route exact path="/about" component={About} />
             <Route exact path="/contact" component={Contact} />
             <Route exact path="/players" component={PlayersList} />
-            <Route exact path="/login" component={AdminLanding} />
+            <Route exact path="/login" render={() =>{
+                return <AdminLanding onLogin={this.onLogin} />
+            }} />
         </Switch>   
         )
     }
