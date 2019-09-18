@@ -79,12 +79,15 @@ class AdminLanding extends React.Component {
     }
 
     handleLogin = () => {
-        console.log(this.state.form);
         const {email,password} = this.state.form;
-        AuthenticationService()
+        const authenticationService = AuthenticationService();
+        authenticationService
             .signin(email,password)
             .then((user) => {
-                console.log(user);
+                authenticationService.getUserDetails(user)
+                    .then((userDetails) => {
+                        this.props.onLogin(userDetails);
+                    })
             })
             .catch((error) => {
                 console.log(error.message);

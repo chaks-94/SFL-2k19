@@ -1,8 +1,8 @@
 import FirebaseInstance from "./initializeFirebase";
 
 const AuthenticationService = () => {
-    const authInstance = FirebaseInstance.getInstance()
-                    .auth();
+    const firebaseInstance = FirebaseInstance.getInstance();
+    const authInstance = firebaseInstance.auth();
     
     return {
         signin: (email,password) => {
@@ -25,6 +25,19 @@ const AuthenticationService = () => {
                         resolve("success");
                     })
 
+            })
+        },
+        getUserDetails: (user) => {
+            return new Promise((resolve,reject) => {
+                const adminRef = firebaseInstance
+                                    .database()
+                                    .ref("/admins");
+                return adminRef.on("value",(snapshot) => {
+                    console.log(snapshot.val());
+                    const admins = snapshot.val();
+                    console.log(admins,user);
+                    resolve(admins[user.user.uid]);
+                })
             })
         }
     }
