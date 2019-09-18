@@ -1,0 +1,25 @@
+.container {
+    max-width: 80vw;
+    margin: 0 auto;
+    .photos-container {
+        display: flex;
+        max-width: 100vw;
+        flex-wrap: wrap;
+        align-items: stretch;
+        .image-card {
+            flex: 1 0 25%;
+            max-width: 33%;
+            margin: 4px 1px;
+            transition: transform .2s;
+            &:hover {
+                transform: scale(1.2);
+            }
+        }
+
+        @media only screen and (max-width: 500px) {
+            .image-card {
+                max-width: 100%;
+            }
+        }
+    }
+}

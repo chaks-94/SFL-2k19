@@ -5,6 +5,7 @@ import Home from "../Home/home";
 import Contact from "../Contact/contact";
 import About from "../About/about";
 import PlayersList from '../PlayersList/PlayersList';
+import Gallery from "../Gallery/gallery";
 
 class PageComponents extends React.Component {
     render(){
@@ -22,6 +23,7 @@ class PageComponents extends React.Component {
             <Route exact path="/about" component={About} />
             <Route exact path="/contact" component={Contact} />
             <Route exact path="/players" component={PlayersList} />
+            <Route exact path="/gallery" component={Gallery} />
         </Switch>   
         )
     }
