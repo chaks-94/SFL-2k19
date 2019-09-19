@@ -2,6 +2,8 @@ import * as React from "react";
 import {Link} from "react-router-dom";
 import GetPlayers from "../../services/GetPlayerService";
 import "./PlayersList.scss";
+import EditableCell from "../common/EditableCell";
+import PaymentUpdate from "../../services/paymentUpdate";
 
 class PlayersList extends React.Component {
     constructor(props) {
@@ -53,7 +55,6 @@ class PlayersList extends React.Component {
             ...player,
             foot: formatFoot(player.foot),
             position: formatPosition(player.position),
-            paymentStatus: player.paymentStatus ? "Complete": "Not Complete"
         }
     }
 
@@ -90,6 +91,30 @@ class PlayersList extends React.Component {
             }
         ]
     }
+
+    changeStatus = (event,player) => {
+        PaymentUpdate(player.key,"paymentStatus",event.target.value.toLowerCase() === "true")
+                    .then((message) => {
+                        let players = this.state.playersInfo
+                                .map((playerNew) => {
+                                    if(player.key === playerNew.key) {
+                                        return {
+                                            ...playerNew,
+                                            paymentStatus: !playerNew.paymentStatus,
+                                        }
+                                    } else {
+                                        return playerNew;
+                                    }
+                                });
+                        this.setState({
+                            playersInfo: players,
+                        })
+                    })
+                    .catch((error) => {
+                        alert("Something went wrong! Try again later");
+                        console.log(error);
+                    })
+    }
     
     render() {
         return(
@@ -117,7 +142,12 @@ class PlayersList extends React.Component {
                                     return (
                                         render ? 
                                         <td key={id}>
-                                            editable Cell
+                                            <EditableCell
+                                                isEditable={this.props.isAdmin}
+                                                handleChange = {this.changeStatus}
+                                                data={player}
+                                                field={id}
+                                                />
                                         </td>
                                         :
                                         <td key={id}>

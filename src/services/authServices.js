@@ -8,7 +8,7 @@ const AuthenticationService = () => {
     return {
         signin: (email,password) => {
             return new Promise((resolve,reject) => {
-                authInstance.setPersistence(firebaseInstance.auth.Auth.Persistence.LOCAL)
+                authInstance.setPersistence(firebaseInstance.auth.Auth.Persistence.SESSION)
                     .then(() =>{
                         authInstance
                     .signInWithEmailAndPassword(email, password)
