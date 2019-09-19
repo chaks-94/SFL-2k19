@@ -1,15 +1,7 @@
 import firebase from "firebase";
 import config from "../config/config"
 
-const FirebaseInstance = () => {
-    if (!firebase.apps.length) {
-        firebase.initializeApp(config);
-    }
-    return {
-        getInstance: () =>{
-            return firebase;
-        }
-    }
-}
+firebase.initializeApp(config);
 
-export default FirebaseInstance();
+export const auth = firebase.auth();
+export default firebase;

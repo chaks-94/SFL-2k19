@@ -4,7 +4,7 @@ import { Promise } from "q";
 const GetPlayers = () => {
     return new Promise((resolve,reject) => {
         let players;
-        const playersRef = FirebaseInstance.getInstance()
+        const playersRef = FirebaseInstance
             .database()
             .ref("/sfl2k19");
         return playersRef.on('value',(snapshot) => {

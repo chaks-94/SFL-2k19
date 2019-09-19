@@ -1,11 +1,12 @@
 import * as React from "react";
+import "./about.scss";
 
 class About extends React.Component{
     render(){
         return (
             <div>
-                <h2>About Us</h2>
-                <h4>Coming soon...</h4>
+                <h1>About Us</h1>
+                <h4>Coming Soon</h4>
             </div>
         );
     }
