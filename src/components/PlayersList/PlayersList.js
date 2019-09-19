@@ -2,14 +2,16 @@ import * as React from "react";
 import {Link} from "react-router-dom";
 import GetPlayers from "../../services/GetPlayerService";
 import "./PlayersList.scss";
-import EditableCell from "../common/EditableCell";
+import EditableCell from "../common/EditableCell/EditableCell";
 import PaymentUpdate from "../../services/paymentUpdate";
+import RemoveModal from "../content/RemoveModal";
 
 class PlayersList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             playersInfo:[],
+            showRemoveModal: false,
         }
     }
     componentDidMount() {
@@ -88,8 +90,23 @@ class PlayersList extends React.Component {
                 id: "paymentStatus",
                 name: "Payment Status",
                 render: true,
-            }
+            },
+            ...this.props.isAdmin ? [{
+                id: "key",
+                name: "Remove",
+            }] : []
         ]
+    }
+
+    toggleRemoveModal= () => {
+        this.setState({
+            ...this.state,
+            showRemoveModal: !this.state.showRemoveModal
+        })
+    }
+
+    removePlayer = () => {
+        console.log("hello");
     }
 
     changeStatus = (event,player) => {
@@ -151,7 +168,14 @@ class PlayersList extends React.Component {
                                         </td>
                                         :
                                         <td key={id}>
-                                            {player[id]}
+                                            {id === "key" ? 
+                                                <button 
+                                                    className="btn-remove"
+                                                    onClick={this.toggleRemoveModal}
+                                                >
+                                                    Remove Player
+                                                </button>
+                                                : player[id]}
                                         </td>
                                     )
                                 })}
@@ -164,6 +188,12 @@ class PlayersList extends React.Component {
                     Dont see your Name here? Because you have not registered yet<br></br>
                     <Link to="/register">Please register now!!</Link>
                 </div>
+                {this.state.showRemoveModal && 
+                    <RemoveModal 
+                        onModalClose = {this.toggleRemoveModal}
+                        onModalAction = {this.removePlayer}        
+                    />
+                }
             </div>
         )
     }

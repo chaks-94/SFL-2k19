@@ -21,6 +21,14 @@
             text-align: left;
             padding: 8px;
         }
+        .btn-remove {
+            background-color: transparent;
+            border: none;
+            text-decoration: underline;
+            font-weight: bold;
+            color: red;
+            outline: none;
+        }
     }
 }
 
