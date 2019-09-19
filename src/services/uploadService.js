@@ -3,7 +3,7 @@ import "@firebase/storage";
 
 export const UploadFile =  (fileName,fileData) => {
   
-    const storage = FirebaseInstance.getInstance().storage();
+    const storage = FirebaseInstance.storage();
     return storage
         .ref(fileName)
         .put(fileData)

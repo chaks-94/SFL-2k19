@@ -2,7 +2,7 @@ import FirebaseInstance from "./initializeFirebase";
 
 const RegisterService = (object) => {
     
-    return FirebaseInstance.getInstance().database()
+    return FirebaseInstance.database()
             .ref("/sfl2k19")
             .push(object)
             .then(() => {

@@ -4,7 +4,7 @@
   display: flex;
   li{
     list-style-type: none;
-    margin: 2vw 0;
+    margin: 2vw 0 1vw 0;
     
     font-size: 3vh;
   }
@@ -15,14 +15,14 @@
     display: flex;  
   }
   
-  button{
+  .btn-close{
     display: none;
   }
   .link {
       text-decoration: none;
       color: black;
       font-family: monospace;
-      padding: 2vw;
+      padding: 2vw 2vw 1vw 2vw;
       &:hover {
         text-decoration: none;
         background-color: #C6E9FF;
@@ -35,6 +35,47 @@
   &-end {
     justify-content: flex-end;
     margin-left: auto;
+    position: relative;
+    .user-info {
+      margin-right: 2vw;
+      padding: 1vw 2vw 1vw 0;
+      cursor: pointer;
+      .user-name {
+        text-decoration: none;
+        color: black;
+        font-family: monospace;
+        padding: 2vw 5px;
+      }
+    }
+    .user-dropdown {
+      position: absolute;
+      left: 0;
+      top: 100%;
+      background-color: rgb(10, 40, 59);
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+      border-top: 2px solid #fff;
+      width: 80%;
+      color: white;
+      padding: 4px;
+      font-size: 3vh;
+      z-index: 20;
+      display : none;
+      .btn-logout {
+        outline: none;
+        background-color: transparent;
+        margin: auto;
+        border: none;
+        text-decoration: underline;
+        cursor: pointer;
+        color: white;
+      }
+    }
+    &:hover {
+      .user-dropdown {
+        display: block;
+      }
+    }
   }
 }
 
@@ -53,7 +94,7 @@
       margin: 0;
     }
     
-    button{
+    .btn-close{
       display: block;
       
       padding: 2vw;
@@ -64,6 +105,25 @@
       cursor: pointer;
       
       align-self: flex-start;
+    }
+    &-end {
+      .dropdown-arrow {
+        display: none;
+      }
+      .user-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        transform: translate(50%,-100%);
+        background-color: #d6efff;
+        border: none;
+        z-index: 99;
+        display: block;
+        .btn-logout {
+          color: black;
+          text-align: left;
+        }
+      }
     }
   }
 }

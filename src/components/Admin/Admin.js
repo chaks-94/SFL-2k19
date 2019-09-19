@@ -1,5 +1,6 @@
 import * as React from "react";
-import "./Admin.scss"
+import "./Admin.scss";
+import {Redirect} from "react-router-dom";
 import AuthenticationService from "../../services/authServices";
 
 class AdminLanding extends React.Component {
@@ -18,7 +19,7 @@ class AdminLanding extends React.Component {
                 password: false,
                 email: false,
                 formValid: false,
-            }
+            },
         }
     }
 
@@ -84,7 +85,7 @@ class AdminLanding extends React.Component {
         authenticationService
             .signin(email,password)
             .then((user) => {
-                authenticationService.getUserDetails(user)
+                authenticationService.getUserDetails(user.user)
                     .then((userDetails) => {
                         this.props.onLogin(userDetails);
                     })
@@ -115,6 +116,9 @@ class AdminLanding extends React.Component {
     }
 
     render() {
+        if(this.props.isAdmin) {
+            return <Redirect to="/players" />
+        }
         return (
             <div className="admin-landing-container">
                 <h1>

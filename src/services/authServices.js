@@ -1,14 +1,14 @@
-import FirebaseInstance from "./initializeFirebase";
+import FirebaseInstance, {auth} from "./initializeFirebase";
 import { localValue } from "../helpers/helper";
 
 const AuthenticationService = () => {
-    const firebaseInstance = FirebaseInstance.getInstance();
-    const authInstance = firebaseInstance.auth();
+    const firebaseInstance = FirebaseInstance;
+    const authInstance = auth;
     
     return {
         signin: (email,password) => {
             return new Promise((resolve,reject) => {
-                authInstance.setPersistence(firebaseInstance.auth.Auth.Persistence.SESSION)
+                authInstance.setPersistence(firebaseInstance.auth.Auth.Persistence.LOCAL)
                     .then(() =>{
                         authInstance
                     .signInWithEmailAndPassword(email, password)
@@ -23,6 +23,7 @@ const AuthenticationService = () => {
             }) 
         },
         signOut: () => {
+            console.log("sign out calles");
             return new Promise((resolve) => {
                 authInstance
                     .signOut()
@@ -41,9 +42,20 @@ const AuthenticationService = () => {
                     console.log(snapshot.val());
                     const admins = snapshot.val();
                     console.log(admins,user);
-                    resolve(admins[user.user.uid]);
+                    resolve(admins[user.uid]);
                 })
             })
+        },
+        checkLogin: () => {
+           return new Promise((resolve,reject) => {
+                authInstance.onAuthStateChanged((user) => {
+                    if(user) {
+                        resolve(user);
+                    } else {
+                        reject();
+                    }
+                })
+           })
         }
     }
 

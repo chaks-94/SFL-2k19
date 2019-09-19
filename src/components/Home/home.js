@@ -14,7 +14,10 @@ class Home extends React.Component {
                         <h1 style={h1Style}>This is SFL 2k19</h1>
                         <p>The tournament you have been waiting for</p>
                         <Link className="btn btn-register" to="/register">Go On and register</Link><br></br>
-                        <Link className="btn btn-login" to="/login">Admin Login</Link>
+                        {
+                            !this.props.isAdmin && 
+                            <Link className="btn btn-login" to="/login">Admin Login</Link>
+                        }
                     </div>
                </div>
 

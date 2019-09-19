@@ -15,6 +15,7 @@ class PageComponents extends React.Component {
     }
 
     render(){
+        const {isAdmin} = this.props;
        return (
         <Switch>
             <Route
@@ -24,18 +25,19 @@ class PageComponents extends React.Component {
                     return <Redirect exact to="home" />
                 }}
             />
-            <Route exact path="/home" component={Home} />
+            <Route exact path="/home" render={() => {
+                return <Home isAdmin={isAdmin} />
+            }} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/about" component={About} />
             <Route exact path="/contact" component={Contact} />
-            <Route exact path="/players" component={PlayersList} />
-<<<<<<< HEAD
-            <Route exact path="/login" render={() =>{
-                return <AdminLanding onLogin={this.onLogin} />
+            <Route exact path="/players" render={() => {
+                return <PlayersList isAdmin={isAdmin} />
             }} />
-=======
+            <Route exact path="/login" render={() =>{
+                return <AdminLanding onLogin={this.onLogin} isAdmin={isAdmin} />
+            }} />
             <Route exact path="/gallery" component={Gallery} />
->>>>>>> app-dev
         </Switch>   
         )
     }
