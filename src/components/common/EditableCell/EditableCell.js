@@ -8,6 +8,7 @@ class EditableCell extends React.Component {
         if(isEditable) {
             displayElement = 
             <select
+                className="table-dropdown"
                 value = {data[field]}
                 onChange = {(event) => this.props.handleChange(event,data)}
             >
