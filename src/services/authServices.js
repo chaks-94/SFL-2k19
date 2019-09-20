@@ -23,7 +23,6 @@ const AuthenticationService = () => {
             }) 
         },
         signOut: () => {
-            console.log("sign out calles");
             return new Promise((resolve) => {
                 authInstance
                     .signOut()
@@ -39,9 +38,7 @@ const AuthenticationService = () => {
                                     .database()
                                     .ref("/admins");
                 return adminRef.on("value",(snapshot) => {
-                    console.log(snapshot.val());
                     const admins = snapshot.val();
-                    console.log(admins,user);
                     resolve(admins[user.uid]);
                 })
             })

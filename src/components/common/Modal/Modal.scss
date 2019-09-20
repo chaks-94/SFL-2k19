@@ -1,9 +1,54 @@
-.modal {
+.modal-backdrop {
     position: fixed;
     display: block;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    z-index: 100;
     background-color: rgba($color: #000000, $alpha: 0.5);
+    .modal-dialog {
+        pointer-events: auto !important;
+        &.center-align {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            transform: translateY(-50%);
+            border: 1px solid;
+            z-index: 10000;
+        }
+        background-color: #fff;
+        padding: 10px;
+        .modal-heading {
+            text-align: center;
+            h6 {
+                color: red;
+            }
+        }
+        .modal-body {
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+            margin: 10px;
+            .btn {
+                background-color: transparent;
+                outline: none;
+                padding: 4px;
+                margin: 10px;
+                border: 1px solid black;
+                border-radius: 4px;
+                cursor: pointer;
+                &-confirm {
+                    background-color: rgb(229, 147, 147);
+                }
+            }
+        }
+        .close {
+            position: absolute;
+            right: 0;
+            padding: 10px 10px 0 0;
+            cursor: pointer;
+        }
+    }
 }

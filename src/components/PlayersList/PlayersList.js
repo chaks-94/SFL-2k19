@@ -5,6 +5,7 @@ import "./PlayersList.scss";
 import EditableCell from "../common/EditableCell/EditableCell";
 import PaymentUpdate from "../../services/paymentUpdate";
 import RemoveModal from "../content/RemoveModal";
+import RemovePlayerService from "../../services/removePlayerService";
 
 class PlayersList extends React.Component {
     constructor(props) {
@@ -12,6 +13,7 @@ class PlayersList extends React.Component {
         this.state = {
             playersInfo:[],
             showRemoveModal: false,
+            playerToRemove: {},
         }
     }
     componentDidMount() {
@@ -98,15 +100,34 @@ class PlayersList extends React.Component {
         ]
     }
 
-    toggleRemoveModal= () => {
+    toggleRemoveModal= (player) => {
+        const {showRemoveModal} = this.state;
+        const playerToRemove = showRemoveModal ? {} : player;
         this.setState({
             ...this.state,
-            showRemoveModal: !this.state.showRemoveModal
+            showRemoveModal: !this.state.showRemoveModal,
+            playerToRemove
         })
     }
 
     removePlayer = () => {
-        console.log("hello");
+        const {playerToRemove, playersInfo} = this.state;
+        RemovePlayerService(playerToRemove)
+            .then((message) => {
+                let players = playersInfo.filter((playerIterator) => {
+                    return playerIterator.key !== playerToRemove.key;
+                })
+                this.setState({
+                    ...this.state,
+                    playersInfo: players,
+                    playerToRemove: {},
+                    showRemoveModal: false,
+                })
+            })
+            .catch((error) => {
+                alert("Something went wrong! Try again later");
+                console.log(error);
+            })
     }
 
     changeStatus = (event,player) => {
@@ -171,9 +192,9 @@ class PlayersList extends React.Component {
                                             {id === "key" ? 
                                                 <button 
                                                     className="btn-remove"
-                                                    onClick={this.toggleRemoveModal}
+                                                    onClick={() => this.toggleRemoveModal(player)}
                                                 >
-                                                    Remove Player
+                                                    Remove
                                                 </button>
                                                 : player[id]}
                                         </td>
