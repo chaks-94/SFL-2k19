@@ -1,0 +1,28 @@
+.pagination-container {
+    width: 100%;
+    margin: 10px auto;
+    text-align: center;
+    display: flex;
+    flex-flow: column;
+    .page-list {
+        align-content: center;
+        display: flex;
+        margin: 5px auto;
+        .page-link {
+            display: block;
+            cursor: pointer;
+            &.active {
+                z-index: 2;
+                color: #0056b3;
+                text-decoration: none;
+                background-color: #e9ecef;
+                border-color: #dee2e6;
+            }
+        }
+        .paginate-desc {
+            p {
+                margin: 0 0 4px 0;
+            }
+        }
+    }
+}
