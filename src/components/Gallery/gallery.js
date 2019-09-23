@@ -1,38 +1,136 @@
 import * as React from "react";
 import "./gallery.scss";
-import * as img_1 from "../../assets/images/Teams/1.jpg";
-import * as img_2 from "../../assets/images/Teams/2.jpg";
-import * as img_3 from "../../assets/images/Teams/3.jpg";
-import * as img_4 from "../../assets/images/Teams/4.jpg";
-import * as img_5 from "../../assets/images/Teams/5.jpg";
-import * as img_6 from "../../assets/images/Teams/6.jpg";
-import * as img_7 from "../../assets/images/Teams/7.jpg";
-import * as img_8 from "../../assets/images/Teams/8.jpg";
-import * as img_9 from "../../assets/images/Teams/9.jpg";
-import * as img_10 from "../../assets/images/Teams/10.jpg";
-import * as img_11 from "../../assets/images/Teams/11.jpg";
-import * as img_12 from "../../assets/images/Teams/12.jpg";
-
+import { DownloadAll } from "../../services/downloadService";
+import DragAndDrop from "../common/DragAndDrop/DragAndDrop";
+import BulkUpload from "../../services/BulkUpload";
+import Loader from "../common/Loader/Loader";
 class Gallery extends React.Component{
-    render(){
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            pictureUrls: [],
+            displayImages: false,
+            workInProgress: false,
+        }
+    }
+    uploadMobileRef = React.createRef();
+    componentDidMount() {
+        this.setState({
+            ...this.state,
+            workInProgress: true,
+        },this.downloadAllImages())
+    }
+
+    downloadAllImages = () => {
+        DownloadAll()
+            .then((data) => {
+                this.setState({
+                    ...this.state,
+                    pictureUrls:data,
+                    displayImages: true,
+                    workInProgress: false,
+                })
+            })
+            .catch((error) =>{
+                console.log(error);
+                alert("Something went wrong! Could not Load images");
+                this.setState({
+                    ...this.state,
+                    workInProgress: false,
+                })
+            })
+    }
+
+    generateImageHtml = () => {
         const imgStyle = {width:"50%"};
+
+        return this.state.pictureUrls.map((url,index) => {
+            return <img key={index} src={url} className="image-card" alt="team" style={imgStyle}/>
+        });
+    } 
+
+    handleDrop= (files) => {
+        this.setState({
+            ...this.state,
+            workInProgress: true,
+        })
+        let count = this.state.pictureUrls.length;
+        const newFiles = [...files].map((file,index) => {
+            file[`newName`] = count+index+1;
+            return file;
+        })
+        BulkUpload(newFiles)
+            .then((messages) => {
+                const allUploaded = messages.every((message) => {
+                    return message === "success";
+                });
+                if(allUploaded) {
+                    this.downloadAllImages();
+                } else {
+                    alert("Something went wrong, please try again later");
+                    this.setState({
+                        ...this.state,
+                        workInProgress: false,
+                    })
+
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                alert("Something went wrong, please try again later");
+                this.setState({
+                    ...this.state,
+                    workInProgress: false,
+                })
+            })
+    }
+
+    handleMobileClick = () => {
+        this.uploadMobileRef.current.click();
+    }
+
+    onUploadChange= (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        this.handleDrop(e.target.files);
+    }
+
+    render(){
         return (
             <div className="container">
                 <h2 className="welcome-text">Few Moments from previous years</h2>
+                {this.props.isAdmin && 
+                    <div className="upload-container">
+                        <DragAndDrop 
+                            handleDrop = {this.handleDrop}
+                            style = {{
+                                width: '100%',
+                            }}
+                        >
+                            <div className="drag-drop-container">Drag and drop photos in this space to upload</div>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                multiple
+                                hidden
+                                ref={this.uploadMobileRef}
+                                onChange={this.onUploadChange}
+                            />
+                            <button
+                                className="mobile-only"
+                                onClick={this.handleMobileClick}
+                            >Upload photos</button>
+                        </DragAndDrop>
+                    </div>
+                }
                 <div className="photos-container">
-                    <img src={img_1} className="image-card" alt="team" style={imgStyle}/>
-                    <img src={img_2} className="image-card" alt="team" style={imgStyle}/>
-                    <img src={img_3} className="image-card" alt="team" style={imgStyle}/>
-                    <img src={img_4} className="image-card" alt="team" style={imgStyle}/>
-                    <img src={img_5} className="image-card" alt="team" style={imgStyle}/>
-                    <img src={img_6} className="image-card" alt="team" style={imgStyle}/>
-                    <img src={img_7} className="image-card" alt="team" style={imgStyle}/>
-                    <img src={img_8} className="image-card" alt="team" style={imgStyle}/>
-                    <img src={img_9} className="image-card" alt="team" style={imgStyle}/>
-                    <img src={img_10} className="image-card" alt="team" style={imgStyle}/>
-                    <img src={img_11} className="image-card" alt="team" style={imgStyle}/>
-                    <img src={img_12} className="image-card" alt="team" style={imgStyle}/>
+                    {this.state.displayImages && 
+                        this.generateImageHtml()
+                    }
                 </div>
+                {this.state.workInProgress && 
+                <Loader></Loader>}
             </div>
         );
     }

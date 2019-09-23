@@ -9,10 +9,6 @@ import AdminLanding from "../Admin/Admin";
 import Gallery from "../Gallery/gallery";
 
 class PageComponents extends React.Component {
-    
-    onLogin = (userDetails) => {
-        this.props.onLogin(userDetails);
-    }
 
     render(){
         const {isAdmin} = this.props;
@@ -35,9 +31,11 @@ class PageComponents extends React.Component {
                 return <PlayersList isAdmin={isAdmin} />
             }} />
             <Route exact path="/login" render={() =>{
-                return <AdminLanding onLogin={this.onLogin} isAdmin={isAdmin} />
+                return <AdminLanding onLogin={this.props.onLogin} isAdmin={isAdmin} />
             }} />
-            <Route exact path="/gallery" component={Gallery} />
+            <Route exact path="/gallery" render={() =>{
+                return <Gallery isAdmin={isAdmin} />
+            }} />
         </Switch>   
         )
     }

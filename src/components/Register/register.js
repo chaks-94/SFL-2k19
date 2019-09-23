@@ -152,7 +152,7 @@ class RegisterPlayer extends React.Component {
         const {fullName,passYear, photo} = this.state.playerInfo;
         let uploadMessage,uploadStatus = false;
         if (photo.size > 3145728) {
-            uploadMessage = "Max upload size is 1Mb, please upload a image lesser than 1Mb size";
+            uploadMessage = "Max upload size is 3Mb, please upload a image lesser than 3Mb size";
             uploadStatus = false;
             this.setState({
                 ...this.state,

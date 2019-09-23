@@ -91,7 +91,8 @@ class AdminLanding extends React.Component {
                     })
             })
             .catch((error) => {
-                console.log(error.message);
+                alert(error.message);
+                this.resetFields();
             })
 
 
