@@ -236,11 +236,13 @@ class PlayersList extends React.Component {
                     })}
                     </tbody>
                 </table>
+                {this.state.playersInfo.length > 0 && 
                 <Paginate 
-                    pageLength = {Math.round(this.state.playersInfo.length/this.state.pageLength)}
+                    pageLength = {Math.ceil(this.state.playersInfo.length/this.state.pageLength)}
                     onPageClick = {this.handlePaginationChange}
                     onPageLengthChange = {this.handlePageLengthChange}
                 />
+                }
                 <div className="registration-message has-success">
                     Dont see your Name here? Because you have not registered yet<br></br>
                     <Link to="/register">Please register now!!</Link>
