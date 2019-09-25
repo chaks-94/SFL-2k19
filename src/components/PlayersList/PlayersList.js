@@ -35,7 +35,6 @@ class PlayersList extends React.Component {
                     return this.formatPlayerInfo(player);
                 }),
             })
-            console.log(JSON.stringify(this.state.playersInfo));
         });
         
     }

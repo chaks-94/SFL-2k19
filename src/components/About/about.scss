@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css?family=Lobster&display=swap');
+
+.about-container {
+    max-width: 80vw;
+    margin: 0 auto 2vw auto;
+    .content-container {
+        box-shadow:  0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        position: relative;
+        padding: 25px;
+        .row {
+            display: flex;
+            flex-flow: row; 
+            padding: 10px 0;
+            .column {
+                width: 50%;
+                margin: 0 2vw;
+                .content-container--text {
+                    font-family: 'Lobster', cursive;
+                    font-size: 20px;
+                }
+                .link-container {
+                    border-top: 2px solid lightgrey;
+                    padding: 10px;
+                    display: flex;
+                    width: 100%;
+                    justify-content: space-evenly;
+                }
+            }
+            &:first-child {
+               border-bottom: 2px solid lightgrey;
+            }
+            &:last-child {
+                .column {
+                    width: 100%;
+                    h5 {
+                        text-align: center;
+                    }
+                }
+            }
+        }
+        @media only screen and (max-width: 500px) {
+            .row {
+                flex-flow: column;
+                .column {
+                    width: 100%;
+                    flex: 1 0 100%;
+                    margin: 1vw auto;
+                }
+            }
+        }
+    }
+}
