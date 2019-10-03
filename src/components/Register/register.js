@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import "./register.scss";  
 import { UploadFile } from "../../services/uploadService";
 import RegisterService from "../../services/RegisterService";
+import RegistrationStatusService from "../../services/registrationStatusService";
 
 class RegisterPlayer extends React.Component {
 
@@ -19,6 +20,7 @@ class RegisterPlayer extends React.Component {
                 passYear: "",
                 paymentStatus: false,
             },
+            registrationOpen: false,
             formSubmitStatus: false, 
             upload: {
                 uploadMessage: "",
@@ -37,6 +39,16 @@ class RegisterPlayer extends React.Component {
             }
         }
     };
+
+    componentDidMount() {
+        RegistrationStatusService()
+            .then((registrationOpen => {
+                this.setState({
+                    ...this.state,
+                    registrationOpen,
+                })
+            }))
+    }
 
     handleChange = (event) => {
         const target = event.target;
@@ -198,139 +210,143 @@ class RegisterPlayer extends React.Component {
     }
 
     render() {
+        const registrationContent = this.state.registrationOpen ? 
+            <form>
+                <div className="row">
+                    <h4>Basic Info</h4>
+                    <div className="input-group input-group-icon">
+                        <input
+                            type="text"
+                            name="fullName"
+                            disabled={this.state.formSubmitStatus}
+                            placeholder="Full Name"
+                            onChange={this.handleChange}
+                        />
+                        <div className="input-icon"><i className="fa fa-user"></i></div>
+                    </div>
+                    <div className="input-group input-group-icon">
+                        <input
+                            type="number"
+                            name="phone"
+                            disabled={this.state.formSubmitStatus}
+                            maxLength="10"
+                            placeholder="Contact Number"
+                            onChange={this.handleChange}
+                        />
+                        <div className="input-icon"><i className="fa fa-mobile"></i></div>
+                    </div>
+                    <div className="input-group input-group-icon">
+                        <input
+                            type="number"
+                            name="passYear"
+                            disabled={this.state.formSubmitStatus}
+                            maxLength="4"
+                            placeholder="Passout year from School"
+                            onChange={this.handleChange}
+                        />
+                        <div className="input-icon"><i className="fa fa-clock-o"></i></div>
+                    </div>
+                    <div className="input-group input-group-icon">
+                        <input
+                            type="text"
+                            name="lastTeam"
+                            disabled={this.state.formSubmitStatus}
+                            placeholder="Previous Team"
+                            onChange={this.handleChange}
+                        />
+                        <div className="input-icon"><i className="fa fa-users"></i></div>
+                    </div>
+                </div>
+                <div className="row">
+                    <h4>Playing Info</h4>
+                    <div className="input-group col-12">
+                        <div className="col-half">
+                            <h5>Preffered Foot</h5>
+                            <select
+                                name="foot"
+                                value={this.state.playerInfo.foot}
+                                onChange={this.handleChange}
+                                disabled={this.state.formSubmitStatus}
+                            >
+                                <option value="">Select</option>
+                                <option value="l">Left</option>
+                                <option value="r">Right</option>
+                                <option value="both">Both</option>
+                            </select>
+                        </div>
+                        <div className="col-half">
+                            <h5>Playing Position</h5>
+                            <select
+                                name="position"
+                                value={this.state.playerInfo.position}
+                                onChange={this.handleChange}
+                                disabled={this.state.formSubmitStatus}
+                            >
+                                <option value="">Select</option>
+                                <option value="def">Defence</option>
+                                <option value="mid">Midfield</option>
+                                <option value="att">Attack</option>
+                                <option value="gk">GK</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div className="row">
+                    <h4>Photo</h4>
+                    <div className="input-group">
+                        <input
+                            type="file"
+                            accept="image/*"
+                            name="photo"
+                            placeholder="Upload your latest photo"
+                            onChange={this.handleChange}
+                            disabled={this.state.formSubmitStatus}
+                        />
+                    </div>
+                    <div className={this.state.upload.uploadStatus ? `has-success` : 'has-error'}>{this.state.upload.uploadMessage}</div>
+                </div>
+
+                <div className="row">
+                    <div className="col-md-4"></div>
+                    <div className="col-md-4 center-align">
+                        <button type="button"
+                            className="btn btn-md btn-primary"
+                            onClick={this.handleUpload}
+                            disabled={this.state.formSubmitStatus}
+                        >
+                            Upload
+                            </button>
+                    </div>
+                    <div className="col-md-4"></div>
+                </div>
+                <div className="row">
+                    <div className="col-md-3"></div>
+                    <div className="col-md-3">
+                        <button type="button"
+                            className="btn btn-lg btn-primary"
+                            disabled={!this.state.formValidation.formValid || this.state.formSubmitStatus}
+                            onClick={this.handleSubmit}
+                        >
+                            Submit
+                            </button>
+                    </div>
+                    <div className="col-md-3">
+                        <button type="reset"
+                            className="btn btn-lg btn-primary"
+                            onClick={this.clearFields}
+                            disabled={this.state.formSubmitStatus}
+                        >
+                            Reset
+                            </button>
+                    </div>
+                    <div className="col-md-3"></div>
+                </div>
+            </form> 
+            : 
+            <div>Registration is closed. Please contact admins for further information.</div>
         return(
             <div className="registration-container">
-                <form>
-                    <div className="row">
-                        <h4>Basic Info</h4>
-                        <div className="input-group input-group-icon">
-                            <input 
-                                type="text" 
-                                name="fullName"
-                                disabled={this.state.formSubmitStatus}
-                                placeholder="Full Name"
-                                onChange={this.handleChange}
-                            />
-                            <div className="input-icon"><i className="fa fa-user"></i></div>
-                        </div>
-                        <div className="input-group input-group-icon">
-                            <input 
-                                type="number"
-                                name="phone"
-                                disabled={this.state.formSubmitStatus}
-                                maxLength="10"
-                                placeholder="Contact Number"
-                                onChange={this.handleChange}
-                            />
-                            <div className="input-icon"><i className="fa fa-mobile"></i></div>
-                        </div>
-                        <div className="input-group input-group-icon">
-                            <input
-                                type="number"
-                                name="passYear"
-                                disabled={this.state.formSubmitStatus}
-                                maxLength="4"
-                                placeholder="Passout year from School"
-                                onChange={this.handleChange}
-                            />
-                            <div className="input-icon"><i className="fa fa-clock-o"></i></div>
-                        </div>
-                        <div className="input-group input-group-icon">
-                            <input
-                                type="text"
-                                name="lastTeam"
-                                disabled={this.state.formSubmitStatus}
-                                placeholder="Previous Team"
-                                onChange={this.handleChange}
-                            />
-                            <div className="input-icon"><i className="fa fa-users"></i></div>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <h4>Playing Info</h4>
-                        <div className="input-group col-12">
-                            <div className="col-half">
-                                <h5>Preffered Foot</h5>
-                                <select
-                                    name="foot"
-                                    value={this.state.playerInfo.foot}
-                                    onChange={this.handleChange}
-                                    disabled={this.state.formSubmitStatus}
-                                >
-                                    <option value="">Select</option>
-                                    <option value="l">Left</option>
-                                    <option value="r">Right</option>
-                                    <option value="both">Both</option>
-                                </select>
-                            </div>
-                            <div className="col-half">
-                                <h5>Playing Position</h5>
-                                <select
-                                    name="position"
-                                    value={this.state.playerInfo.position}
-                                    onChange={this.handleChange}
-                                    disabled={this.state.formSubmitStatus}
-                                >
-                                    <option value="">Select</option>
-                                    <option value="def">Defence</option>
-                                    <option value="mid">Midfield</option>
-                                    <option value="att">Attack</option>
-                                    <option value="gk">GK</option>
-                                </select>
-                            </div>
-                        </div>    
-                    </div>
-                    <div className="row">
-                        <h4>Photo</h4>
-                        <div className="input-group">
-                            <input
-                                type="file"
-                                accept="image/*"
-                                name="photo"
-                                placeholder="Upload your latest photo"
-                                onChange={this.handleChange}
-                                disabled={this.state.formSubmitStatus}
-                            />
-                        </div>
-                        <div className={this.state.upload.uploadStatus ? `has-success` : 'has-error'}>{this.state.upload.uploadMessage}</div>   
-                    </div>
-
-                    <div className="row">
-                        <div className="col-md-4"></div>
-                        <div className="col-md-4 center-align">
-                            <button type="button"
-                                className="btn btn-md btn-primary"
-                                onClick={this.handleUpload}
-                                disabled={this.state.formSubmitStatus}
-                            >
-                                Upload
-                            </button>
-                        </div>
-                        <div className="col-md-4"></div>
-                    </div>
-                    <div className="row">
-                        <div className="col-md-3"></div>
-                        <div className="col-md-3">
-                            <button type="button"
-                                className="btn btn-lg btn-primary"
-                                disabled = {!this.state.formValidation.formValid || this.state.formSubmitStatus}
-                                onClick= {this.handleSubmit}
-                            >
-                                Submit
-                            </button>
-                        </div>
-                        <div className="col-md-3">
-                            <button type="reset"
-                                className="btn btn-lg btn-primary"
-                                onClick={this.clearFields}
-                                disabled={this.state.formSubmitStatus}
-                            >
-                                Reset
-                            </button>
-                        </div>
-                        <div className="col-md-3"></div>
-                    </div>
-                </form>
+                {registrationContent}
                 {this.state.formSubmitStatus && 
                     <div className="row has-success">
                         Congratulations! You are successfully registered
