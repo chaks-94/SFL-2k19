@@ -17,6 +17,19 @@ class PlayersList extends React.Component {
             playerToRemove: {},
             pageLength: 5,
             cutStart: 0,
+            filterInfo: {
+                filters: [
+                     {
+                        text: "Payment Status",
+                        field: "payementStatus",
+                        type: "dropdown",
+                    }
+                ],
+                selectedFilter: "",
+                filterValue: "",
+                filterField: "",
+                filterType: "",
+            }
         }
     }
     componentDidMount() {
@@ -36,6 +49,29 @@ class PlayersList extends React.Component {
                 }),
             })
         });
+        
+    }
+
+    changeFilter = (e) => {
+        const field = e.target.value;
+        const {state} = this;
+
+        const filterType = state.filterInfo.filters.filter((singleFilter) => {
+            return singleFilter.field === field;
+        })[0].type;
+
+        this.setState({
+            ...state,
+            filterInfo: {
+                ...state.filterInfo,
+                selectedFilter: field,
+                filterType
+            }
+        })
+    }
+
+    addFilter = (e) => {
+        console.log(e.target.value);
         
     }
 
@@ -180,9 +216,39 @@ class PlayersList extends React.Component {
     }
     
     render() {
+        const {state} = this;
         return(
             <div className="container registration-table">
                 <h1>Players List</h1>
+                <div className="filter-container">
+                    <div className="filter-section">
+                        <span className="filter-label">Filter By:</span>
+                        <div className="filter-heading">
+                            <select 
+                                value = {state.filterInfo.selectedFilter}
+                                onChange={this.changeFilter}>
+                                    <option value="">Select a filter</option>
+                                    {state.filterInfo.filters.map((filter) => {
+                                       return <option key={filter.field} value={filter.field}>{filter.text}</option>
+                                    })}
+                            </select>
+                        </div>
+                        <div className="filter-body">
+                            {state.filterInfo.filterType === "dropdown" &&
+                                <select
+                                    value = {state.filterInfo.filterValue}
+                                    onChange={this.addFilter}
+                                >
+                                    <option value={true}>Complete</option>
+                                    <option value={false}>Not Complete</option>
+                                </select>
+                            }
+                        </div>
+                    </div>
+                    <div className="filter-list">
+
+                    </div>
+                </div>
                 <table className="simple-table">
                     <thead>
                        <tr>
@@ -197,8 +263,8 @@ class PlayersList extends React.Component {
                         </tr> 
                     </thead>
                     <tbody>
-                    {this.state.playersInfo
-                        .slice(this.state.cutStart,this.state.cutStart+this.state.pageLength)
+                    {state.playersInfo
+                        .slice(state.cutStart,state.cutStart+state.pageLength)
                         .map((player,index) =>{
                         return(
                             <tr key={index}>
@@ -224,7 +290,7 @@ class PlayersList extends React.Component {
                                                     Remove
                                                 </button>
                                                 : (id === "index" ? 
-                                                    index+this.state.cutStart+1 :
+                                                    index+state.cutStart+1 :
                                                     player[id]
                                                 )}
                                         </td>
@@ -235,9 +301,9 @@ class PlayersList extends React.Component {
                     })}
                     </tbody>
                 </table>
-                {this.state.playersInfo.length > 0 && 
+                {state.playersInfo.length > 0 && 
                 <Paginate 
-                    pageLength = {Math.ceil(this.state.playersInfo.length/this.state.pageLength)}
+                    pageLength = {Math.ceil(state.playersInfo.length/state.pageLength)}
                     onPageClick = {this.handlePaginationChange}
                     onPageLengthChange = {this.handlePageLengthChange}
                 />
@@ -246,7 +312,7 @@ class PlayersList extends React.Component {
                     Dont see your Name here? Because you have not registered yet<br></br>
                     <Link to="/register">Please register now!!</Link>
                 </div>
-                {this.state.showRemoveModal && 
+                {state.showRemoveModal && 
                     <RemoveModal 
                         onModalClose = {this.toggleRemoveModal}
                         onModalAction = {this.removePlayer}       
