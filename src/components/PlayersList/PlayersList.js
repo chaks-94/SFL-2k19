@@ -214,6 +214,34 @@ class PlayersList extends React.Component {
             cutStart: 0,
         })
     }
+
+    getTableContent = (index,player,id) => {
+        let content;
+        switch(id) {
+            case "key" :
+                content = 
+                        <button 
+                            className="btn-remove"
+                            onClick={() => this.toggleRemoveModal(player)}
+                        >
+                            Remove
+                        </button>
+                break;
+            case "index" : 
+                content = index+this.state.cutStart+1;
+                break;
+            case "phone" : 
+                content = this.props.isAdmin ? 
+                            <a href={`tel:+${player[id]}`}>{player[id]}</a> :
+                            player[id];
+
+                break;  
+            default: 
+                content = player[id];
+                break; 
+        }
+        return content;
+    }
     
     render() {
         const {state} = this;
@@ -282,17 +310,7 @@ class PlayersList extends React.Component {
                                         </td>
                                         :
                                         <td key={id}>
-                                            {id === "key" ? 
-                                                <button 
-                                                    className="btn-remove"
-                                                    onClick={() => this.toggleRemoveModal(player)}
-                                                >
-                                                    Remove
-                                                </button>
-                                                : (id === "index" ? 
-                                                    index+state.cutStart+1 :
-                                                    player[id]
-                                                )}
+                                            {this.getTableContent(index,player,id)}
                                         </td>
                                     )
                                 })}
