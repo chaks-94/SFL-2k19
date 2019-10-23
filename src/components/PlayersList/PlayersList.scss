@@ -3,6 +3,35 @@
 }
 
 .registration-table {
+    .filter-container {
+        margin: 0 auto;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        .filter-section {
+            display: flex;
+            flex-direction: row;
+            margin: 2vw auto;
+            width: 50%;
+            justify-content: space-evenly;
+        }
+        .filter-list {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            width: 100%;
+            margin: 2vw 0;
+            .filter-applied {
+                background-color: lightsteelblue;
+                padding: 5px;
+                border-radius: 2px;
+                &--close {
+                    cursor: pointer;
+                    padding-left: 5px;
+                }
+            }
+        }
+    }
     .simple-table {
         border-collapse: collapse;
         width: 100%;

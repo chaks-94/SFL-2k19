@@ -13,22 +13,80 @@ class PlayersList extends React.Component {
         super(props);
         this.state = {
             playersInfo:[],
+            filteredPlayers: [],
             showRemoveModal: false,
             playerToRemove: {},
             pageLength: 5,
             cutStart: 0,
             filterInfo: {
                 filters: [
-                     {
+                    {
+                        text: "Select a Filter",
+                        field: "",
+                        type: "",
+                    },
+                    {
                         text: "Payment Status",
-                        field: "payementStatus",
+                        field: "paymentStatus",
                         type: "dropdown",
+                        options: [
+                            {
+                                value: true,
+                                display: "Complete",
+                            },
+                            {
+                                value: false,
+                                display: "Not Complete",
+                            }
+                        ],
+                    },
+                    {
+                        text: "Preferred Foot",
+                        field: "foot",
+                        type: "dropdown",
+                        options: [
+                            {
+                                value: "Left",
+                                display: "Left"
+                            },{
+                                value: "Right",
+                                display: "Right"
+                            },{
+                                value: "Both",
+                                display: "Both"
+                            }
+                        ]
+                    },
+                    {
+                        text: "Playing Position",
+                        field: "position",
+                        type: "dropdown",
+                        options: [
+                            {
+                                value: "Goal Keeper",
+                                display: "Goal Keeper"
+                            },{
+                                value: "Defence",
+                                display: "Defence"
+                            },{
+                                value: "Midfield",
+                                display: "Midfield"
+                            },{
+                                value: "Attack",
+                                display: "Attack"
+                            }
+                        ]
                     }
                 ],
-                selectedFilter: "",
-                filterValue: "",
-                filterField: "",
-                filterType: "",
+                selectedFilter: {
+                    text: "",
+                    field: "",
+                    type: "",
+                    options: "",
+                    value: "",
+                    displayValue: "",
+                },
+                list: []
             }
         }
     }
@@ -43,11 +101,13 @@ class PlayersList extends React.Component {
                 }
                 players.push(data[keys[i]]);
             }
+            const allPlayers = players.map((player) => {
+                return this.formatPlayerInfo(player);
+            });
             this.setState({
-                playersInfo: players.map((player) => {
-                    return this.formatPlayerInfo(player);
-                }),
-            })
+                playersInfo: allPlayers,
+                filteredPlayers: allPlayers
+            });
         });
         
     }
@@ -56,23 +116,104 @@ class PlayersList extends React.Component {
         const field = e.target.value;
         const {state} = this;
 
-        const filterType = state.filterInfo.filters.filter((singleFilter) => {
+        const filter = state.filterInfo.filters.filter((singleFilter) => {
             return singleFilter.field === field;
-        })[0].type;
+        })[0];
 
         this.setState({
             ...state,
             filterInfo: {
                 ...state.filterInfo,
-                selectedFilter: field,
-                filterType
+                selectedFilter: filter
             }
         })
     }
 
-    addFilter = (e) => {
-        console.log(e.target.value);
-        
+    addFilter = (field,filterValue) => {
+        const {state} = this;
+        let list = state.filterInfo.list;
+        let value, displayValue;
+        if(filterValue === "true") {
+            value = true;
+            displayValue = "Complete";
+        } else if(filterValue === "false") {
+            value = false;
+            displayValue = "Not Complete";
+        } else {
+            displayValue = value = filterValue;
+        }
+        const index = list.findIndex(filter => filter.field === field);
+        if(index === -1) {
+            list.push({...state.filterInfo.selectedFilter,value,displayValue});
+        } else {
+            list[index]["value"] = value;
+            list[index]["displayValue"] = displayValue;
+        }
+        this.setState({
+            ...state,
+            filterInfo: {
+                ...state.filterInfo,
+                filterValue,
+                list
+            }
+        });
+        this.applyFilter()
+    }
+
+    applyFilter = () => {
+        const {filterInfo, playersInfo} = this.state;
+        let filteredPlayers = playersInfo;
+        filterInfo.list.forEach((filter) => {
+            const {field, value} = filter;
+            filteredPlayers = filteredPlayers.filter((player) => {
+                return player[field] === value;
+            })
+        });
+        this.setState({
+            filterInfo: {
+                ...this.state.filterInfo,
+                selectedFilter: {
+                    text: "",
+                    field: "",
+                    type: "",
+                    value: "",
+                    displayValue: "",
+                },
+                filterValue: "",
+                filterType: "",
+            },
+            filteredPlayers,
+        });
+    }
+
+    removeFilter = (filter) => {
+        let {list} = this.state.filterInfo;
+        list = list.filter((appliedFilter) => {
+            return appliedFilter.field !== filter.field;
+        });
+        this.setState({
+            ...this.state,
+            filterInfo : {
+                ...this.state.filterInfo,
+                list
+            }
+        });
+        setTimeout(() => {
+            this.applyFilter()
+        }, 200);
+    }
+
+    clearFilter = () => {
+        this.setState({
+            ...this.state,
+            filterInfo: {
+                ...this.state.filterInfo,
+                list: []
+            }
+        });
+        setTimeout(() => {
+            this.applyFilter();
+        }, 200);
     }
 
     formatPlayerInfo = (player) => {
@@ -166,7 +307,8 @@ class PlayersList extends React.Component {
                     playersInfo: players,
                     playerToRemove: {},
                     showRemoveModal: false,
-                })
+                });
+                this.applyFilter();
             })
             .catch((error) => {
                 alert("Something went wrong! Try again later");
@@ -190,7 +332,8 @@ class PlayersList extends React.Component {
                                 });
                         this.setState({
                             playersInfo: players,
-                        })
+                        });
+                        this.applyFilter();
                     })
                     .catch((error) => {
                         alert("Something went wrong! Try again later");
@@ -253,28 +396,57 @@ class PlayersList extends React.Component {
                         <span className="filter-label">Filter By:</span>
                         <div className="filter-heading">
                             <select 
-                                value = {state.filterInfo.selectedFilter}
+                                value = {state.filterInfo.selectedFilter.field}
                                 onChange={this.changeFilter}>
-                                    <option value="">Select a filter</option>
                                     {state.filterInfo.filters.map((filter) => {
                                        return <option key={filter.field} value={filter.field}>{filter.text}</option>
                                     })}
                             </select>
                         </div>
                         <div className="filter-body">
-                            {state.filterInfo.filterType === "dropdown" &&
+                            {state.filterInfo.selectedFilter.type === "dropdown" &&
                                 <select
-                                    value = {state.filterInfo.filterValue}
-                                    onChange={this.addFilter}
+                                    value = {state.filterInfo.selectedFilter.value}
+                                    onChange={(e) => this.addFilter(state.filterInfo.selectedFilter.field,e.target.value)}
                                 >
-                                    <option value={true}>Complete</option>
-                                    <option value={false}>Not Complete</option>
+                                    <option value="">Please Select One</option>
+                                    {
+                                        state.filterInfo.selectedFilter.options.map((option, index) => {
+                                            return (
+                                                <option key={index} value={option.value}>{option.display}</option>
+                                            )
+                                        })
+                                    }
                                 </select>
                             }
                         </div>
                     </div>
                     <div className="filter-list">
-
+                        {state.filterInfo.list.map((filter,index) => {
+                            return (
+                                <div key={index} className="filter-applied">
+                                    <span className="filter-applied--heading">{filter.text}</span>:&nbsp;
+                                    <span className="filter-applied--value">{filter.displayValue}</span>
+                                    <span
+                                        className="filter-applied--close"
+                                        onClick={() => this.removeFilter(filter)}
+                                    >
+                                        <i className="fa fa-times"></i>
+                                    </span>
+                                </div>
+                            )
+                        })}
+                        {state.filterInfo.list.length > 0 &&
+                        <div className="filter-applied">
+                            <span className="filter-applied--heading">Clear all Filters</span>
+                            <span
+                                    className="filter-applied--close"
+                                    onClick={() => this.clearFilter()}
+                                >
+                                    <i className="fa fa-times"></i>
+                            </span>
+                        </div>
+                        }
                     </div>
                 </div>
                 <table className="simple-table">
@@ -291,7 +463,7 @@ class PlayersList extends React.Component {
                         </tr> 
                     </thead>
                     <tbody>
-                    {state.playersInfo
+                    {state.filteredPlayers
                         .slice(state.cutStart,state.cutStart+state.pageLength)
                         .map((player,index) =>{
                         return(
@@ -321,7 +493,7 @@ class PlayersList extends React.Component {
                 </table>
                 {state.playersInfo.length > 0 && 
                 <Paginate 
-                    pageLength = {Math.ceil(state.playersInfo.length/state.pageLength)}
+                    pageLength = {Math.ceil(state.filteredPlayers.length/state.pageLength)}
                     onPageClick = {this.handlePaginationChange}
                     onPageLengthChange = {this.handlePageLengthChange}
                 />
