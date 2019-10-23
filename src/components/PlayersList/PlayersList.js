@@ -421,6 +421,7 @@ class PlayersList extends React.Component {
                             }
                         </div>
                     </div>
+                    {state.filterInfo.list.length > 0 &&
                     <div className="filter-list">
                         {state.filterInfo.list.map((filter,index) => {
                             return (
@@ -436,7 +437,6 @@ class PlayersList extends React.Component {
                                 </div>
                             )
                         })}
-                        {state.filterInfo.list.length > 0 &&
                         <div className="filter-applied">
                             <span className="filter-applied--heading">Clear all Filters</span>
                             <span
@@ -446,8 +446,7 @@ class PlayersList extends React.Component {
                                     <i className="fa fa-times"></i>
                             </span>
                         </div>
-                        }
-                    </div>
+                    </div>}
                 </div>
                 <table className="simple-table">
                     <thead>
