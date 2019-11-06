@@ -7,6 +7,10 @@ class Home extends React.Component {
         const h1Style = {
             fontSize: "50px",
         }
+        const buttonList = this.props.isAdmin
+                            ?  <Link className="btn btn-login" to="/portal">Admin portal</Link>
+                            :  <Link className="btn btn-login" to="/login">Admin Login</Link>
+
         return (
             <main>
                <div className="landing-image">
@@ -15,8 +19,7 @@ class Home extends React.Component {
                         <p>The tournament you have been waiting for</p>
                         <Link className="btn btn-register" to="/register">Go On and register</Link><br></br>
                         {
-                            !this.props.isAdmin && 
-                            <Link className="btn btn-login" to="/login">Admin Login</Link>
+                            buttonList
                         }
                     </div>
                </div>

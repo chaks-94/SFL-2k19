@@ -42,6 +42,7 @@ class RegisterPlayer extends React.Component {
 
     componentDidMount() {
         RegistrationStatusService()
+        .getStatus()
             .then((registrationOpen => {
                 this.setState({
                     ...this.state,

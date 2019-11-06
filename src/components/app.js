@@ -20,7 +20,6 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        console.log("Hello from App");
         const authService = AuthenticationService();
         authService.checkLogin()
                     .then((user) => {
@@ -53,7 +52,7 @@ class App extends React.Component {
                 userDetails,
                 isAdmin:true,
             }
-        },this.redirectToListPage);
+        });
     }
 
     onLogout = () => {

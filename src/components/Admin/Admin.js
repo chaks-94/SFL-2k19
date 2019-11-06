@@ -118,7 +118,7 @@ class AdminLanding extends React.Component {
 
     render() {
         if(this.props.isAdmin) {
-            return <Redirect to="/players" />
+            return <Redirect to="/dashboard" />
         }
         return (
             <div className="admin-landing-container">

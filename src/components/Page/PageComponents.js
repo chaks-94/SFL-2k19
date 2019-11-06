@@ -7,6 +7,8 @@ import About from "../About/about";
 import PlayersList from '../PlayersList/PlayersList';
 import AdminLanding from "../Admin/Admin";
 import Gallery from "../Gallery/gallery";
+import Dashboard from "../AdminDashboard/Dashboard";
+import Portal from "../AdminDashboard/ResgitrationPortal";
 
 class PageComponents extends React.Component {
 
@@ -35,6 +37,12 @@ class PageComponents extends React.Component {
             }} />
             <Route exact path="/gallery" render={() =>{
                 return <Gallery isAdmin={isAdmin} />
+            }} />
+            <Route exact path="/dashboard" render={() =>{
+                return <Dashboard isAdmin={isAdmin} />
+            }} />
+            <Route exact path="/portal" render={() =>{
+                return <Portal isAdmin={isAdmin} />
             }} />
         </Switch>   
         )
