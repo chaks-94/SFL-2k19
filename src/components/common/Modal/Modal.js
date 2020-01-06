@@ -18,7 +18,10 @@ class Modal extends React.Component {
                     className={`modal-dialog ${centerAlignClass}`}
                     onClick={this.stopPropagation}
                 >
-                    <div className="fa fa-close close"></div>
+                    <div
+                        className="fa fa-close close"
+                        onClick={onModalClose}
+                    ></div>
                     <div>{this.props.children}</div>
                 </div>
             </div>
