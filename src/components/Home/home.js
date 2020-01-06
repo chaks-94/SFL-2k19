@@ -8,7 +8,7 @@ class Home extends React.Component {
             fontSize: "50px",
         }
         const buttonList = this.props.isAdmin
-                            ?  <Link className="btn btn-login" to="/portal">Admin portal</Link>
+                            ?  <Link className="btn btn-login" to="/dashboard">Admin Dashboard</Link>
                             :  <Link className="btn btn-login" to="/login">Admin Login</Link>
 
         return (
