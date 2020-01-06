@@ -9,6 +9,7 @@ import AdminLanding from "../Admin/Admin";
 import Gallery from "../Gallery/gallery";
 import Dashboard from "../AdminDashboard/Dashboard";
 import Portal from "../AdminDashboard/ResgitrationPortal";
+import Teams from "../Teams/Teams";
 
 class PageComponents extends React.Component {
 
@@ -29,6 +30,7 @@ class PageComponents extends React.Component {
             <Route exact path="/register" component={Register} />
             <Route exact path="/about" component={About} />
             <Route exact path="/contact" component={Contact} />
+            <Route exact path="/teams" component={Teams} />
             <Route exact path="/players" render={() => {
                 return <PlayersList isAdmin={isAdmin} />
             }} />
